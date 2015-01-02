@@ -15,6 +15,9 @@ setup(
     download_url="https://github.com/novoid/Memacs/zipball/master",
     keywords=["org-mode", "org"],
     scripts=glob.glob("bin/memacs_*"),
+    entry_points={
+        'console_scripts': ["memacs-chromium = memacs.chromium:main"]
+    },
     install_requires=["Pillow", "icalendar>=3.0", "feedparser"],
     classifiers=[
         "Programming Language :: Python",
