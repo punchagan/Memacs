@@ -46,7 +46,7 @@ class ChroMemacs(Memacs):
             last_sync = 0
 
         query = (
-            # Chrome's epoch is 'Jan 1 00:00:00 UTC 1601'
+            # 'Jan 1 00:00:00 UTC 1601' is the epoch in Chrome
             '''SELECT url, title, (last_visit_time/1000000)-11644473600 as time
                FROM urls
                WHERE time >= %s
@@ -54,7 +54,7 @@ class ChroMemacs(Memacs):
         )
         entries = self._cursor.execute(query).fetchall()
 
-        self._update_sync_time()
+        self._set_config_option('last-sync', int(time.mktime(time.gmtime())))
         self._connection.close()
 
         return entries
@@ -87,11 +87,6 @@ class ChroMemacs(Memacs):
 
         logging.debug("%s: DB copied to %s", self.name, self._db_path)
         return self._db_path
-
-    def _update_sync_time(self):
-        # Chrome's epoch is 'Jan 1 00:00:00 UTC 1601'
-        timestamp = int(time.time() * 10**6 + 11644473600)
-        self._set_config_option('last-sync', timestamp)
 
     def _write_entry(self, entry):
         timestamp = OrgFormat.datetime(
