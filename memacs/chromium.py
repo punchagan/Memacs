@@ -6,7 +6,14 @@ It has been developed against the Chromium browser, but should work fine with
 Google Chrome, too.  (And possibly can be made to work with Firefox with a few
 tweaks).
 
+Add the following, to your config file.
+
+[chromium]
+db = ~/.config/chromium/Default/History
+last-sync =
+
 """
+
 import os
 import logging
 import shutil
