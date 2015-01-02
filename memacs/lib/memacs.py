@@ -144,6 +144,17 @@ class Memacs(object):
         else:
             raise Exception("no config parser specified, cannot get option")
 
+    def _set_config_option(self, option, value):
+        """Set an option to the given value."""
+
+        if self.__config_parser:
+            config = self.__config_parser
+            config.set(self.__use_config_parser_name, option, value)
+            with open(self._args.configfile, 'wb') as configfile:
+                config.write(configfile)
+        else:
+            raise Exception("no config parser specified, cannot get option")
+
     def _main(self):
         """
         does nothing in this (super) class
