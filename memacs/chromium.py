@@ -54,7 +54,9 @@ class ChroMemacs(Memacs):
         )
         entries = self._cursor.execute(query).fetchall()
 
-        self._set_config_option('last-sync', int(time.mktime(time.gmtime())))
+        self._set_config_option(
+            'last-sync', int(time.mktime(time.localtime()))
+        )
         self._connection.close()
 
         return entries
