@@ -129,6 +129,14 @@ class GitMemacs(Memacs):
            "http://docs.python.org/library/codecs.html#standard-encodings" + \
            "for possible encodings")
 
+        self._parser.add_argument(
+            "-r", "--repo", dest="repo",
+            action="store",
+            help="name of the repo being parsed; " + \
+            "added as a properyty, tag to the commits."
+        )
+
+
     def _parser_parse_args(self):
         """
         overwritten method of class Memacs
@@ -147,7 +155,7 @@ class GitMemacs(Memacs):
     def get_line_from_stream(self, input_stream):
         try:
             return input_stream.readline()
-        except UnicodeError, e:
+        except UnicodeError:
             logging.error("Can't decode to encoding %s, " + \
                           "use argument -e or --encoding see help",
                           self._args.encoding)
@@ -218,6 +226,13 @@ class GitMemacs(Memacs):
         for commit in commits:
             output, properties, note, author, timestamp = commit.get_output()
 
+            if self._args.repo is not None:
+                tags = [self._args.repo]
+                properties.add('REPO', self._args.repo)
+
+            else:
+                tags = []
+
             if not(self._args.grepuser) or \
             (self._args.grepuser and self._args.grepuser == author):
                 # only write to stream if
@@ -226,7 +241,8 @@ class GitMemacs(Memacs):
                 self._writer.write_org_subitem(output=output,
                                                timestamp=timestamp,
                                                properties=properties,
-                                               note=note)
+                                               note=note,
+                                               tags=tags)
 
         if self._args.gitrevfile:
             input_stream.close()
