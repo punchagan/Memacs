@@ -102,16 +102,11 @@ class ChroMemacs(Memacs):
 
 
 def main():
-    import sys
-    argv = sys.argv[1:]
-
     memacs = ChroMemacs(
         prog_tag='url',
         prog_short_description='Browser History',
         use_config_parser_name='chromium',
-        argv=argv
     )
-
     memacs.handle_main()
 
 
