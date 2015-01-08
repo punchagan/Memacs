@@ -16,7 +16,10 @@ setup(
     keywords=["org-mode", "org"],
     scripts=glob.glob("bin/memacs_*"),
     entry_points={
-        'console_scripts': ["memacs-chromium = memacs.chromium:main"]
+        'console_scripts': [
+            "memacs-chromium = memacs.chromium:main",
+            "memacs-kindle = memacs.kindle:main"
+        ]
     },
     install_requires=["Pillow", "icalendar>=3.0", "feedparser"],
     classifiers=[
