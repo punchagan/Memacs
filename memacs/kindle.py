@@ -56,6 +56,8 @@ class KindleMemacs(Memacs):
 
         reads = self._get_book_reads(book)
         for start_ts, start, end_ts, end, duration in reads:
+            if duration < book.MIN_IN_HAND_SECS:
+                continue
             timestamp = OrgFormat.datetimerange(
                 time.localtime(start_ts), time.localtime(end_ts)
             )
