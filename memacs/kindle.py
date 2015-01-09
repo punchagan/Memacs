@@ -51,6 +51,8 @@ class KindleMemacs(Memacs):
         mobi, sidecar = book_data.get(asin, (None, None))
         if mobi is not None:
             title = mobi.title
+        else:
+            title = asin
 
         reads = self._get_book_reads(book)
         for start_ts, start, end_ts, end, duration in reads:
